@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
 import MoviePage from "./components/Movies/MoviePage";
+import NavigationBar from "./components/NavigationBar";
+
 import { CircularProgress } from "@material-ui/core";
 
 import useMovies from "./hooks/useMovies";
@@ -30,6 +32,7 @@ const App = (): ReactElement => {
 
   return (
     <div>
+        <NavigationBar/>
       <main>
         <MoviePage movies={movies} />
         <div ref={ref}>

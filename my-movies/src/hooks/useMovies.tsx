@@ -32,7 +32,7 @@ const useMovies = ({ path, page }: useMoviesProps) => {
         `${path}?api_key=${apikey}&language=en-US&page=${page}`
       );
       setLoading(false);
-
+      
       //If get is successful, concat the previous result with new one
       if (response.ok) {
         setMovies(movies.concat(res.results));
@@ -40,7 +40,7 @@ const useMovies = ({ path, page }: useMoviesProps) => {
     } catch (e) {
       setLoading(false);
       setError(e);
-      setAlert({ severity: "error", message: "Unable to load movies !" });
+      setAlert({ severity: "error", message: error });
     }
   };
 
@@ -49,7 +49,7 @@ const useMovies = ({ path, page }: useMoviesProps) => {
     fetchMovies();
   }, [page]);
 
-  return { movies, loading, error };
+  return { movies, loading };
 };
 
 export default useMovies;
