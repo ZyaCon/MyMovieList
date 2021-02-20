@@ -1,24 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ReactElement, useEffect, useState } from "react";
+
+import MoviePage from "./components/Movies/MoviePage";
+import { CircularProgress } from "@material-ui/core";
+
+import useMovies from "./hooks/useMovies";
+import { useInView } from "react-intersection-observer";
+
 import './App.css';
 
-function App() {
+const App = (): ReactElement => {
+  //Init Page to 0
+  const [page, setPage] = useState(0);
+
+  //Intersection-observer for scrolling
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  //Fetch movies
+  const { movies, loading } = useMovies({
+    path: "movie/popular",
+    page,
+  });
+  
+  //Set page to next page when bottom is viewd
+  useEffect(() => {
+    if (inView) {
+      setPage(p => p + 1);
+    }
+  }, [inView])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <main>
+        <MoviePage movies={movies} />
+        <div ref={ref}>
+          {loading && (<CircularProgress color="secondary" />)}
+        </div>
+      </main>
     </div>
   );
 }
