@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, useState } from "react";
+import React, { ReactElement, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -11,7 +11,7 @@ import {
   Modal,
   Typography,
   Backdrop,
-  Fade
+  CircularProgress,
 } from "@material-ui/core";
 
 import type { MoviePageProps } from "../../types/MoviesPreview";
@@ -32,15 +32,6 @@ const useStyles = makeStyles({
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
-  modalDetail: {
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    position: 'absolute',
-    width: 400,
-    border: '2px solid #000',
-  }
-
 });
 
 const MoviePage = ({ movies }: MoviePageProps): ReactElement => {
@@ -102,7 +93,9 @@ const MoviePage = ({ movies }: MoviePageProps): ReactElement => {
         aria-labelledby="Movie details modal"
         aria-describedby="Display the details of a movie"
       >
-        <MovieDetailsBody movieDetails={movieDetails}/>
+      {loading ?
+        (<CircularProgress color="primary"/>)
+      : <MovieDetailsBody movieDetails={movieDetails}/>}
       </Modal>
     </Box>
   )

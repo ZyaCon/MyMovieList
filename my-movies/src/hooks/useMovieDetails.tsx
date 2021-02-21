@@ -10,13 +10,10 @@ type useMovieDetailsProps = {
 
 const useMovieDetails = ({ path, movieId }: useMovieDetailsProps) => {
   //Set api key
-  const apikey = "7c9f7ccfb93d9953cb32e642f50ca904";
-  const { get, response } = useFetch("https://api.themoviedb.org/3");
-
+  const apikey = "b040330e9290b4874cd99436e831c309";
+  const { get, response, loading } = useFetch("https://api.themoviedb.org/3");
   const [movieDetails, setmovieDetails] = useState<MovieDetails>();
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [, setError] = useState();
 
   const fetchMovieDetails = async () => {
     try {
@@ -24,18 +21,15 @@ const useMovieDetails = ({ path, movieId }: useMovieDetailsProps) => {
         return;
       
       //Start loading until await is finished
-      setLoading(true);
       const res = await get(
         `${path}/${movieId}?api_key=${apikey}&language=en-US`
       );
-      setLoading(false);
 
       //If get is successful, concat the previous result with new one
       if (response.ok) {
         setmovieDetails(res);
       }
     } catch (e) {
-      setLoading(false);
       setError(e);
     }
   };
@@ -43,6 +37,7 @@ const useMovieDetails = ({ path, movieId }: useMovieDetailsProps) => {
   //Check any changement on page number
   useEffect(() => {
     fetchMovieDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieId]);
 
   return { movieDetails, loading };

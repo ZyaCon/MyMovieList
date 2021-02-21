@@ -4,8 +4,8 @@ import { MovieDetails } from "../../types/MovieDetails";
 
 const useStyles = makeStyles({
   media: {
-    height: 450,
-    maxHeight: 450,
+    height: 480,
+    maxHeight: 480,
     width: 350,
   },
   modalDetail: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     left: "50%",
     transform: "translate(-50%, -50%)",
     position: 'absolute',
-    width: 400,
+    width: 1400,
     border: '2px solid #000',
   },
   logo: {
@@ -27,11 +27,10 @@ const MovieDetailsBody = ({movieDetails}: {movieDetails: MovieDetails | undefine
   const classes = useStyles();
   
   return (
-    <div>
-      {/* {JSON.stringify(movieDetails)} */}
+    <div className={classes.modalDetail} >
       <Paper>
-        <Grid container spacing={1}>
-          <Grid item xs container direction="row" spacing={3}>
+        <Grid container xs spacing={1}>
+          <Grid container direction="row" spacing={3}>
             <Grid item container direction="column" xs={3}>
               <CardMedia
                 className={classes.media}
@@ -39,25 +38,29 @@ const MovieDetailsBody = ({movieDetails}: {movieDetails: MovieDetails | undefine
                 title={movieDetails?.title}
               />
             </Grid>
-            <Grid item container direction="column" xs={7} spacing={3}>
+            <Grid item container direction="column" xs spacing={3}>
               <Grid item xs container direction="row" spacing={3}>
-                <Grid item xs container direction="column" spacing={1}>
+                <Grid item xs={6} container direction="column" spacing={1}>
                   <Grid item xs container direction="column">
-                    <h1>{movieDetails?.title}</h1>
+                    <h1 style={{marginBottom: 0}}>{movieDetails?.title}</h1>
                     ({movieDetails?.original_title})
                     <h3>{movieDetails?.tagline}</h3>
+                    <p>Score: <b>{movieDetails?.vote_average}</b> for <b>{movieDetails?.vote_count}</b> votes </p>
+                    <p>Duration: <b>{movieDetails?.runtime }</b> min</p>
                   </Grid>
                   <Grid item xs container direction="column">
                     <h3>Overview</h3>
                     {movieDetails?.overview}
                   </Grid>
                 </Grid>
-                <Grid item xs container direction="column" spacing={3}>
+                <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs container direction="row" spacing={1}>
                     <Grid item xs>
+                      <h3>Release Date:</h3>
+                      {movieDetails?.release_date}
                       <h3>Genres:</h3>
                       {movieDetails?.genres.map(({ id, name }) => (
-                        <Grid key={id} item xs={12}>
+                        <Grid key={id} item xs>
                           <li>
                             {name}
                           </li>
@@ -69,10 +72,10 @@ const MovieDetailsBody = ({movieDetails}: {movieDetails: MovieDetails | undefine
                     <Grid item xs>
                       <h3>Production Companies:</h3>
                       {movieDetails?.production_companies.map(({ id, name, origin_country, logo_path }) => (
-                        <Grid key={id} item xs={12}>
+                        <Grid key={id} item xs>
                           <li>
                             {name} ({origin_country}) {logo_path &&
-                            <img className={classes.logo} src={`https://image.tmdb.org/t/p/original${logo_path}`}></img>}
+                            <img alt="Logo of company" className={classes.logo} src={`https://image.tmdb.org/t/p/original${logo_path}`}></img>}
                           </li>
                         </Grid>
                       ))}

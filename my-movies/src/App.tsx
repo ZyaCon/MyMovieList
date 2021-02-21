@@ -32,7 +32,7 @@ const App = (): ReactElement => {
 
   return (
     <div>
-        <NavigationBar/>
+      <NavigationBar/>
       <main>
         <MoviePage movies={movies} />
         <div ref={ref}>
