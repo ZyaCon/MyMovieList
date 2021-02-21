@@ -3,21 +3,21 @@ import useFetch from "use-http";
 import { useRecoilState } from "recoil";
 
 import { alertState } from "../Recoil/Atoms/atoms";
-import type { MoviesDetails } from "../types/Movies";
+import type { MoviesPreview } from "../types/MoviesPreview";
 
-type useMoviesProps = {
+type useMoviesPreviewProps = {
   path: string;
   page: number;
 };
 
-const useMovies = ({ path, page }: useMoviesProps) => {
+const useMoviesPreview = ({ path, page }: useMoviesPreviewProps) => {
   //Set api key
   const apikey = "7c9f7ccfb93d9953cb32e642f50ca904";
   const { get, response } = useFetch("https://api.themoviedb.org/3");
 
   const [, setAlert] = useRecoilState(alertState);
 
-  const [movies, setMovies] = useState<MoviesDetails[]>([]);
+  const [movies, setMovies] = useState<MoviesPreview[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -25,7 +25,7 @@ const useMovies = ({ path, page }: useMoviesProps) => {
     try {
       if (page === 0)
         return;
-      
+      //throw error
       //Start loading until await is finished
       setLoading(true);
       const res = await get(
@@ -35,7 +35,11 @@ const useMovies = ({ path, page }: useMoviesProps) => {
       
       //If get is successful, concat the previous result with new one
       if (response.ok) {
-        setMovies(movies.concat(res.results));
+        setMovies(movies.concat(
+          res.results.filter(
+            (result: MoviesPreview) => !movies.find(movie => movie.id === result.id)
+          )
+        ));
       }
     } catch (e) {
       setLoading(false);
@@ -52,4 +56,4 @@ const useMovies = ({ path, page }: useMoviesProps) => {
   return { movies, loading };
 };
 
-export default useMovies;
+export default useMoviesPreview;

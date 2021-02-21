@@ -1,4 +1,4 @@
-type MoviesDetails = {
+type MoviesPreview = {
   id: number;
   overview: string;
   poster_path: string;
@@ -6,7 +6,7 @@ type MoviesDetails = {
 };
 
 type MoviePageProps = {
-  movies: MoviesDetails[];
+  movies: MoviesPreview[];
 };
 
-export type { MoviesDetails, MoviePageProps};
+export type { MoviesPreview, MoviePageProps};

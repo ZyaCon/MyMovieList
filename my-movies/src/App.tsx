@@ -5,7 +5,7 @@ import NavigationBar from "./components/NavigationBar";
 
 import { CircularProgress } from "@material-ui/core";
 
-import useMovies from "./hooks/useMovies";
+import useMoviesPreview from "./hooks/useMoviesPreview";
 import { useInView } from "react-intersection-observer";
 
 import './App.css';
@@ -18,7 +18,7 @@ const App = (): ReactElement => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   //Fetch movies
-  const { movies, loading } = useMovies({
+  const { movies, loading } = useMoviesPreview({
     path: "movie/popular",
     page,
   });
